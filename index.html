@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2048 Arena</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs (using version 10.x.x compat for simpler setup, or standard module setup) -->
+    <script type="module" src="firebase.js" defer></script>
+    <script type="module" src="auth.js" defer></script>
+    <script type="module" src="script.js" defer></script>
+    <script type="module" src="leaderboard.js" defer></script>
+    <script type="module" src="achievements.js" defer></script>
+</head>
+<body>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <div class="app-container">
+        
+        <!-- Auth Screen (Login / Signup) -->
+        <section id="auth-screen" class="screen active">
+            <h1 class="neon-title">2048 <span>ARENA</span></h1>
+            <div class="auth-box">
+                <div class="auth-tabs">
+                    <button id="tab-login" class="active">Login</button>
+                    <button id="tab-signup">Sign Up</button>
+                </div>
+                
+                <form id="auth-form">
+                    <div id="signup-fields" style="display: none;">
+                        <input type="text" id="auth-username" placeholder="Unique Username" autocomplete="off">
+                        <small id="username-hint">3-15 chars, letters & numbers only</small>
+                    </div>
+                    <input type="email" id="auth-email" placeholder="Email Address" required>
+                    <input type="password" id="auth-password" placeholder="Password" required>
+                    
+                    <button type="submit" id="auth-submit-btn" class="glow-on-hover">ENTER ARENA</button>
+                </form>
+                <div id="auth-error" class="error-msg"></div>
+            </div>
+        </section>
+
+        <!-- Main Menu -->
+        <section id="menu-screen" class="screen">
+            <h1 class="neon-title">2048 <span>ARENA</span></h1>
+            <div class="welcome-banner">
+                Welcome, <span id="menu-username">Player</span>!
+            </div>
+            <div class="menu-buttons">
+                <button id="btn-play" class="glow-on-hover menu-btn">▶ PLAY</button>
+                <button id="btn-leaderboard" class="menu-btn">🏆 LEADERBOARD</button>
+                <button id="btn-profile" class="menu-btn">👤 PROFILE</button>
+                <button id="btn-achievements" class="menu-btn">🏅 ACHIEVEMENTS</button>
+                <button id="btn-logout" class="menu-btn danger">LOGOUT</button>
+            </div>
+        </section>
+
+        <!-- Game Screen -->
+        <section id="game-screen" class="screen">
+            <header class="game-header">
+                <div class="scores">
+                    <div class="score-box">SCORE <br> <span id="current-score">0</span></div>
+                    <div class="score-box">BEST <br> <span id="best-score">0</span></div>
+                </div>
+                <div class="game-controls">
+                    <button id="btn-menu" class="icon-btn">⬅</button>
+                    <button id="btn-restart" class="icon-btn">↺</button>
+                </div>
+            </header>
+            
+            <div class="game-board-container">
+                <div id="game-board">
+                    <!-- Grid cells will be generated via JS -->
+                </div>
+                
+                <div id="game-over-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <h2>GAME OVER</h2>
+                        <p>Score: <span id="final-score">0</span></p>
+                        <button id="btn-try-again" class="glow-on-hover">TRY AGAIN</button>
+                        <button id="btn-back-menu">MAIN MENU</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Screen -->
+        <section id="leaderboard-screen" class="screen">
+            <header class="top-nav">
+                <button class="icon-btn back-btn">⬅</button>
+                <h2>GLOBAL LEADERBOARD</h2>
+            </header>
+            
+            <div class="timer-box">
+                <p>Week Reset In: <span id="reset-timer">Loading...</span></p>
+            </div>
+
+            <div class="leaderboard-container">
+                <ul id="leaderboard-list">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- Profile Screen -->
+        <section id="profile-screen" class="screen">
+            <header class="top-nav">
+                <button class="icon-btn back-btn">⬅</button>
+                <h2>PLAYER PROFILE</h2>
+            </header>
+            
+            <div class="profile-card">
+                <div class="profile-avatar" id="profile-avatar-initial">?</div>
+                <h3 id="profile-username" class="neon-text">Username</h3>
+                <p id="profile-email">email@example.com</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Games Played</span>
+                        <span class="stat-value" id="stat-games">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">All-Time High</span>
+                        <span class="stat-value" id="stat-high">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Weekly Score</span>
+                        <span class="stat-value" id="stat-weekly">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Joined</span>
+                        <span class="stat-value" id="stat-joined">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Screen -->
+        <section id="achievements-screen" class="screen">
+            <header class="top-nav">
+                <button class="icon-btn back-btn">⬅</button>
+                <h2>ACHIEVEMENTS</h2>
+            </header>
+            
+            <div class="achievements-grid" id="achievements-list">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
